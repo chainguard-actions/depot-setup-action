@@ -9,6 +9,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
 | v1.7.1 | [`v1.7.1`](https://github.com/chainguard-actions/depot-setup-action/tree/v1.7.1) | [`15c09a5`](https://github.com/depot/setup-action/commit/15c09a5f77a0840ad4bce955686522a257853461) |
+| v1.7.2 | [`v1.7.2`](https://github.com/chainguard-actions/depot-setup-action/tree/v1.7.2) | [`91bc849`](https://github.com/depot/setup-action/commit/91bc8495a33ebfc504ffc89e5674379ccf23c29c) |
 
 ## Privacy
 
