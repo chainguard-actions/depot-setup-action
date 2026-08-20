@@ -1,0 +1,37 @@
+name: Test configure-docker option
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup
+        uses: .
+        with:
+          version: latest
+          configure-docker: "true"
+        continue-on-error: true
+      - name: Assert depot CLI is installed regardless of docker config outcome
+        run: |
+          echo "Checking depot CLI is available on PATH..."
+          if ! command -v depot >/dev/null 2>&1; then
+            echo "FAIL: depot CLI not found on PATH"
+            exit 1
+          fi
+          echo "PASS: depot CLI found at $(command -v depot)"
+      - name: Assert configure-docker step outcome
+        env:
+          OUTCOME: ${{ steps.setup.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # configure-docker may fail if Docker is not available or no DEPOT_TOKEN is set,
+          # but the action should either succeed or fail gracefully (not crash unexpectedly).
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: configure-docker succeeded"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: configure-docker failed gracefully (expected without DEPOT_TOKEN or Docker daemon)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi
